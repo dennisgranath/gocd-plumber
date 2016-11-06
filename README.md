@@ -2,7 +2,7 @@
 Create gocd-pipelines from YAML config
 
 ## Build
-go build
+`go build`
 
 ## Run
-./gocd-plumber
+`./gocd-plumber`
