@@ -77,7 +77,7 @@ func main() {
 }
 
 func getConfig() Config{
-  config_file := flag.String("config", "/etc/gocd-plumber/config.ini", "Config file path")
+  config_file := flag.String("config", "root/etc/gocd-plumber/config.ini", "Config file path")
   debug_option := flag.Bool("debug", false, "Verbose debug output")
   flag.Parse()
   if *debug_option {
