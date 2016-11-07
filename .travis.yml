@@ -6,7 +6,7 @@ go:
 - '1.6'
 env:
   global:
-  - GH_REF=github.com/dennisgranath/sam-collector.git
+  - GH_REF=github.com/dennisgranath/gocd-plumber.git
   - secure: VWYVwE4hHCcJKO5B7oYSye8BhPGr4r7SxNvglNOvX9VU83hJ8Zw5hdKZCN0uO8WXJA90PPJhZGBMpi79o+skHmW2WqTLVXkikMuCP7Fwej+vvNGWabvsDk7EOz0wX+RFAydk6WgQUEHeBIG9BnxlL9cLEz7O3Tqdcq5VPEiapj81DPjUSv1Xi1Y98Yx1hu/nNRgnsY7lEkXinGA8opKJ4doPVU7totB9VnsCe8laek7KihRrT9MSnwEz+a65yugZusJq/FLBuYl9zSiRkquWmYiIT9tMtjJn/kGE5gYUveXq0TxVm/cLBguXRQIJHUmY8UElgTbaNGcjJ9qN+pMRbHQbsH2NBI4cQJg4/SrjnBtVOJiSTeojObMNNowv8hdyh9CpCN24mBDbQD96JHt4jY97NBvit4yh9ycZWwkKTsGX1bEp4MWU8I1fQjkd/mPJOtnS+OP7wyc7LSu1DSMm84NI7f25OWmNaT/CWmc/qWUUmTfkwM7anZT9gEyiXRg/xInGZr2X0iJVdYSF32k5ze6+A5OHZZrhRPl+s6uWV4j1ctoOl6bjPbEf4RAB+mbfBEvldaaxeAfKmxQM4J6neJ2JrtBliSu+dfbSHs5cbMzPfFcKYU0y3BtE9vo9UG6BellK3jiogYIlYjb9FG+0/+UGjlZ9q/t0EWz/gVMJ4zg=
 before_script: |
   # Get semver version for HEAD if exists
