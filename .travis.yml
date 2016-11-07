@@ -1,0 +1,49 @@
+language: go
+branches:
+  only:
+  - master
+go:
+- '1.6'
+env:
+  global:
+  - GH_REF=github.com/dennisgranath/sam-collector.git
+  - secure: VWYVwE4hHCcJKO5B7oYSye8BhPGr4r7SxNvglNOvX9VU83hJ8Zw5hdKZCN0uO8WXJA90PPJhZGBMpi79o+skHmW2WqTLVXkikMuCP7Fwej+vvNGWabvsDk7EOz0wX+RFAydk6WgQUEHeBIG9BnxlL9cLEz7O3Tqdcq5VPEiapj81DPjUSv1Xi1Y98Yx1hu/nNRgnsY7lEkXinGA8opKJ4doPVU7totB9VnsCe8laek7KihRrT9MSnwEz+a65yugZusJq/FLBuYl9zSiRkquWmYiIT9tMtjJn/kGE5gYUveXq0TxVm/cLBguXRQIJHUmY8UElgTbaNGcjJ9qN+pMRbHQbsH2NBI4cQJg4/SrjnBtVOJiSTeojObMNNowv8hdyh9CpCN24mBDbQD96JHt4jY97NBvit4yh9ycZWwkKTsGX1bEp4MWU8I1fQjkd/mPJOtnS+OP7wyc7LSu1DSMm84NI7f25OWmNaT/CWmc/qWUUmTfkwM7anZT9gEyiXRg/xInGZr2X0iJVdYSF32k5ze6+A5OHZZrhRPl+s6uWV4j1ctoOl6bjPbEf4RAB+mbfBEvldaaxeAfKmxQM4J6neJ2JrtBliSu+dfbSHs5cbMzPfFcKYU0y3BtE9vo9UG6BellK3jiogYIlYjb9FG+0/+UGjlZ9q/t0EWz/gVMJ4zg=
+before_script: |
+  # Get semver version for HEAD if exists
+  VERSION=$(git tag --contains HEAD | grep "v[0-9]*\.[0-9]*\.[0-9]*")
+  if [ -z "$VERSION" ]; then
+    # Increment minor and set patch to 0
+    VERSION=$(git describe --tags --match 'v[0-9]*\.[0-9]*\.[0-9]*' | \
+      awk -F. '{printf("%s.%s.0", $1, $2+1)}')
+
+    # Set git user config for tag
+    git config user.name "CI Bot"
+    git config user.email "bot@gmail.com"
+
+    # Create new version tag
+    git tag -a "$VERSION" -m "Version $VERSION"
+    echo "New version $VERSION"
+  else
+    echo "HEAD already tagged $VERSION"
+  fi
+script:
+- make
+before_deploy: |
+  # Get semver version for HEAD
+  VERSION=$(git tag --contains HEAD | grep "v[0-9]*\.[0-9]*\.[0-9]*")
+
+  # Push tag if not present on origin
+  git ls-remote --exit-code origin refs/tags/$VERSION || {
+    # Send stdout to dev/null to protect GH_TOKEN
+    git push --quiet "https://${GH_TOKEN}@${GH_REF}" --tags > /dev/null 2>&1
+  }
+
+deploy:
+- provider: releases
+  api_key:
+    secure: scZ9x08f6buY7uXfwyKMIQrX/93YYaCU60CVi9AXiWQYnw5h6W5bDICCKUMoC7CcidIBASvxrgfzabrfnfDn9f6Tg+zCG/xxEDpexH6DRdrmrLdBIH3UyZNYp/7+bj0mQnXSxumMWibkaFCWgMDrAUDCHBDtph2Ex7SKYcPGk1+KegaGOpVDfHwD6T//taZp3Qdgc6oMrabbIB652zKDmhQguZkRmzf6aPx4c93Dbx0bOL/imYTIuRSXBpNvOHVOyg0ZOBJrSNWrxwHUFeij9wE5yNsBHEVvqlKraWvvIYMK15tVP3fdlg8GY08nEimb0aRbLp/uvtrtDePBdlAZZwItl/FvgWIMsghflPTc96jAAyseOSib5uzLTk5EuzzgA5BR3HnIB3XkxZHLiU/NpQM13aa6U3OKr3BtL/ngj6gOAwwz7GnKL1bq/Xi9qTN8waoEbF8TUx9IFsjN7O/TIBLHM89LPjguzcdYpS7jUE3VdbMgcTwz7Yqmsf5z6/3HjerFpokaPJx6sXqXnymEAH+VMkonHpXeoYhoJKVxEB1yP3Z5mRbgwok0gcPPmrMdPsdMaJWsC0EmiQzKqSamoYCBkBR/larPf9DO4EU4BoVfb7sKfFFXSNfrYU9/CL+P5Rup46Etl6H1yC4rRWF2Im66pLMIbtLWQN8eJ6zrS4c=
+  file: ARTIFACTS/*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    repo: dennisgranath/gocd-plumber
