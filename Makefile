@@ -5,6 +5,7 @@ BUILDDIR = ./ARTIFACTS
 # Remove prefix since deb, rpm etc don't recognize this as valid version
 VERSION = $(shell git describe --tags --match 'v[0-9]*\.[0-9]*\.[0-9]*' | sed 's/^v//')
 
+
 ###############################################################################
 ## Building
 ###############################################################################
