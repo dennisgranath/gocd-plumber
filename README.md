@@ -6,6 +6,8 @@
 
 Create gocd-pipelines from YAML config.
 
+## Install
+
 ## Build
 `go build`
 
