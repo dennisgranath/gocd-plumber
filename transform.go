@@ -1,8 +1,8 @@
 package main
 
 import (
-  "strconv"
-  "fmt"
+	"fmt"
+	"strconv"
 )
 
 func transformData(pIn *interface{}) (err error) {
