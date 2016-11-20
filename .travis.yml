@@ -6,8 +6,8 @@ go:
 - '1.6'
 env:
   global:
-  - GH_REF=github.com/dennisgranath/gocd-plumber.git
-  - secure: AonExW7WtEpkXSRBR14dmQMj7letJwU61WPz15l4YWyMOW4CCLpj8MDp5W1MhwoS+Om4lN9iPQK02Y7vVTrb1vqJcA5AS3ZfhcEpSPm0Kq93f4d7YZ5qauKy3/mh4FSWFCwijz1bh/sIKb1syP3gHy+XJYb4ybxVeGV8J43zXzQCY8Lfh9dALOR1eve5FqHQD7WHEJYKx6/WEnlWJHcIOIbGJgc6QtX8SGODDZDy88dzFoRYUJLOyJTGvT+u3viCcP6abBktLs2QotbJqxHMQunHxAZj2hOZWYpupUrEvRjGcg1+jdfY1X3LGwCU4OSIwljA7KWACQRr29sW9i986ffBZc5GPWRAby5TfKGFH/4b0h8/Ax+Jp51VvSELBAVUB7A0zfxG1ULUupwMAQKgLcZ4005op7OD+vG5jqRjghsZCALuUKni+Ejjco9c+PIN0tIhXAnyOKZ8J/Hz0yIOV9hP+aDuba0YUkmQW6OP94KnU2+1NqvlVuLEHEcMFo8XZAkJN3gl7Zhnz0hTW9ZpBNfbDke2XrBRo8G7Poo7PixXfpeyvHcLFXvT3KdxFibUbMTkfPozPgFEy46ihftVvmv5nfiWT8pOVHgNboZnU8A7xK54OuQKmzNxJludTkgIVUU2LZGdiZpYtkLh5entHk5d3FsAlTmRM7ZlZbkQa8A=
+  - GH_REF=github.com/dennisgranath/gocd-plumber
+  - secure: J3m1/xVi/K6xWI8xhcwIAuMZ8aUQ+xgMzjwMfPHcxmdtRGaxbEfKTRBaawB1dB+ONNesURTP/CztHLwXWKGHBXbJHQQV3HAyumt1bSsVbe2mTGU/twQVll/lFc2CcWUbn3RIomZ3xp5ctanG74Py1AuvO1OYJ9D60Cc2T1D44+eZw6ccvSUV3AMI8nuutk6F3Z5YIoGGE/yuNuef7m+S476cjW57MLo+iQjXvIGmwFri5tDnZWwcV7Ah9UJdqB/D/9pVw5GyZW898nvqHLydP1iAqJ3AC8MjpOFuQLJweWLrVVoEpnELT5uEvUq8cA803WySrnsOHrrWyzcsFQskd3lc3FU0+2/vLhbC3DrUmkROeBslZg5wBTH9u8WY2USx8tV3OKsjKZYMPADpqBG1s987ZyoXh0q5yEewFnJ6TUuA/OraMSQrxuw+FYfQcTw5fE/tAMZbnJFxt0qWQ0ppQClxt0Bhp6uf+7/k7c9M6z17WGcw/sDb5SWm/kclng3D843Px5GieboMXFZO+5gLBLdpncU0+vvdNr0oXZj/hssSENlzS7t7qZwCyasGUJCoDZmcLM5N9EPmQsy1jtwYjdG8iA3tjBOVxxN3EA2gd9oUWM0g1aPpqEPEBz4g5Zfriokj+baaa9s3TmBvxbXkyc0MQfVHnxXEHiw+6B2ezxk=
 before_script: |
   # Get semver version for HEAD if exists
   VERSION=$(git tag --contains HEAD | grep "v[0-9]*\.[0-9]*\.[0-9]*")
@@ -17,8 +17,8 @@ before_script: |
       awk -F. '{printf("%s.%s.0", $1, $2+1)}')
 
     # Set git user config for tag
-    git config user.name "CI Bot"
-    git config user.email "bot@gmail.com"
+    git config user.name "dennisgranath"
+    git config user.email "dennis@diabol.com"
 
     # Create new version tag
     git tag -a "$VERSION" -m "Version $VERSION"
@@ -31,17 +31,16 @@ script:
 before_deploy: |
   # Get semver version for HEAD
   VERSION=$(git tag --contains HEAD | grep "v[0-9]*\.[0-9]*\.[0-9]*")
-
+  echo "Debug: New version $VERSION"
   # Push tag if not present on origin
   git ls-remote --exit-code origin refs/tags/$VERSION || {
     # Send stdout to dev/null to protect GH_TOKEN
     git push --quiet "https://${GH_TOKEN}@${GH_REF}" --tags > /dev/null 2>&1
   }
-
 deploy:
 - provider: releases
   api_key:
-    secure: GLJTWI8owdc20KJid5XpGfQbaobY1cggfPWzedktjk39XEl1Qzq2WW5TGGE91xjCXzqKGmnmQOznoLcIeVauEm67YxTD0nFU2wD6bl1o/RoFTtJ6QijEtDvCwIX4awUzWoyxNTJBr3Xw4CtvR5zEa9BEC/4ujT+1QiiYVGIAmLCFYhey6kucqfBCFqRxRpiR2QkfyvEYpR82TNovQ/Aq7ket/gkfVexoV5kXmvUB0sAlyr3Impl65qucp+XJEGUyNWOvQye1UBfJ2zB2M5qSu/0dTrhex0uN7r39BIM824SEt3z0ytISGFi7W25AfnNbbuzfR7l5il+Ut5i4gBe4gMNUNDyYidejARqCEp7CPN+NoD8H0Non5ZPGcXtTemT+q6L9/sMMvm2caTwtvZTHflREIAoqpetXPA6893WkkOf5TtBtEfHetOnHkWMhBduUNeII8Nzt3QAMae6KAOTxIrlIwJEPSTwxA2QKVolB/IXDAIl6N+wYnddz5JHW4xUEX16CZdSaeSmTo/FTZkFbhRP5m0TQ9C2rQGD9OgAVqP+e1tGMbqjY6ZeQ/2lSh60aA+WxQ0C7TiZQafHn7mw8i2fy2J6OGcGg4iv+21IOnuu77dsYylG0VUWYI6u3F9wDk484/jl+dO/JKL+IGBmvJuLRLheLeVtdsIKBA35MWBg=
+    secure: YZyV19RtUmqVSVCNlB1UuH2AAj/TQbtOkgamLul5WNEyPpCCf+45QqPcgja+/NiQI+HMEZaM/nmTGW/vehAtZFeAmRUqnLfehPU7cL43aHMEQoIdiGatLuOY4HJjMHE8/opMFEFW4ttjGXoYWwY7aOXwKsyu4HY81/75/4JvMKKoHjPIf+d8j/hPofB54mIWB80tS1AFE9/wyhbv/Ulj1Tui4xrNmRVQvXDLvOLCZPpBLLIKdmnUp5TgwaOmdZ53WA8PdmIB2i8XatcA/LZQcJW6eS/oZbsr+oXWQ3nYe83m4jJ8tFDFC72pHvfnwcEfBZaK2EgbC8pelkuU0iH5p2TvcVG6fQVrLgBgh2t11vn93xMPtD/dDEso3RiwoCPDK0VICsOBljKWjUYrrIwH8dVb+dnk75/SsUTjFjG/bVMco+ORFNYyWBAzYsG3W5uGNsWUo1J4ZGKk2PJhzU5fOmG5wtq+OKO9RBcShyCViEPEC2JP0rd6qAiDOxh6Iaxv3qDlVDITpOwE2FZcpWDec6GB85YXcaO3h23TCHYU6fRHE34yj0aKsMliEKZ17yMS4XXcVI1rE8FilbnpkohfT7G9XT5tcgbVhjq5mgEwrPFolEfE46C45syHVZuc0tpUnPJlx3ksk8zqfu3Nq4nu0iiAx24crLMpEA2oMoH3I+U=
   file: ARTIFACTS/*
   file_glob: true
   skip_cleanup: true
