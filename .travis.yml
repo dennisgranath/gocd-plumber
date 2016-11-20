@@ -31,7 +31,6 @@ script:
 before_deploy: |
   # Get semver version for HEAD
   VERSION=$(git tag --contains HEAD | grep "v[0-9]*\.[0-9]*\.[0-9]*")
-  echo "Debug: New version $VERSION"
   # Push tag if not present on origin
   git ls-remote --exit-code origin refs/tags/$VERSION || {
     # Send stdout to dev/null to protect GH_TOKEN
