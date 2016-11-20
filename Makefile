@@ -37,7 +37,7 @@ compile = bash -c "eval \"$$(GIMME_GO_VERSION=$(GO_VERSION) GIMME_OS=$(1) GIMME_
 						-o $(BUILDDIR)/$(NAME)-$(VERSION)-$(1)-$(2)"
 
 .PHONY: build build_darwin build_linux
-build: build_darwin build_linux
+build: build_darwin build_linux build_windows
 
 build_darwin:
 	$(call compile,darwin,amd64)
