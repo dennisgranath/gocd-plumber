@@ -45,6 +45,9 @@ build_darwin:
 build_linux:
 	$(call compile,linux,amd64)
 
+build_windows:
+	$(call compile,windows,amd64)
+
 
 ###############################################################################
 ## Clean
