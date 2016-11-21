@@ -8,6 +8,9 @@ env:
   global:
   - GH_REF=github.com/dennisgranath/gocd-plumber
   - secure: J3m1/xVi/K6xWI8xhcwIAuMZ8aUQ+xgMzjwMfPHcxmdtRGaxbEfKTRBaawB1dB+ONNesURTP/CztHLwXWKGHBXbJHQQV3HAyumt1bSsVbe2mTGU/twQVll/lFc2CcWUbn3RIomZ3xp5ctanG74Py1AuvO1OYJ9D60Cc2T1D44+eZw6ccvSUV3AMI8nuutk6F3Z5YIoGGE/yuNuef7m+S476cjW57MLo+iQjXvIGmwFri5tDnZWwcV7Ah9UJdqB/D/9pVw5GyZW898nvqHLydP1iAqJ3AC8MjpOFuQLJweWLrVVoEpnELT5uEvUq8cA803WySrnsOHrrWyzcsFQskd3lc3FU0+2/vLhbC3DrUmkROeBslZg5wBTH9u8WY2USx8tV3OKsjKZYMPADpqBG1s987ZyoXh0q5yEewFnJ6TUuA/OraMSQrxuw+FYfQcTw5fE/tAMZbnJFxt0qWQ0ppQClxt0Bhp6uf+7/k7c9M6z17WGcw/sDb5SWm/kclng3D843Px5GieboMXFZO+5gLBLdpncU0+vvdNr0oXZj/hssSENlzS7t7qZwCyasGUJCoDZmcLM5N9EPmQsy1jtwYjdG8iA3tjBOVxxN3EA2gd9oUWM0g1aPpqEPEBz4g5Zfriokj+baaa9s3TmBvxbXkyc0MQfVHnxXEHiw+6B2ezxk=
+before_install:
+  - curl -o gimme -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
+  - chmod u+x gimme
 before_script: |
   # Get semver version for HEAD if exists
   VERSION=$(git tag --contains HEAD | grep "v[0-9]*\.[0-9]*\.[0-9]*")
