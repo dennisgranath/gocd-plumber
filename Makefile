@@ -31,7 +31,7 @@ gotest:
 ## https://github.com/travis-ci/gimme
 ###############################################################################
 
-compile = bash -c "eval \"$$(GIMME_GO_VERSION=$(GO_VERSION) GIMME_OS=$(1) GIMME_ARCH=$(2) gimme)\"; \
+compile = bash -c "eval \"$$(GIMME_GO_VERSION=$(GO_VERSION) GIMME_OS=$(1) GIMME_ARCH=$(2) ./gimme)\"; \
 					go build -a \
 						-ldflags \"-w -X main.VERSION='$(VERSION)'\" \
 						-o $(BUILDDIR)/$(NAME)-$(VERSION)-$(1)-$(2)"
