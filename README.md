@@ -7,6 +7,8 @@
 Create gocd-pipelines from YAML config.
 
 ## Install
+Download static binary here:
+https://github.com/dennisgranath/gocd-plumber/releases/latest
 
 ## Build
 `go build`
