@@ -20,7 +20,7 @@ func createOrEditPipeline(payload map[string]interface{}) {
 	var response *http.Response
 	var err error
 	if etag != "" {
-		log.Debug(pipelineName + " allready exists. Making patch request")
+		log.Debug(pipelineName + " already exists. Making patch request")
 		response, err = edit(payload, etag)
 	} else {
 		log.Debug("Creating new pipeline: " + pipelineName)
@@ -33,7 +33,10 @@ func createOrEditPipeline(payload map[string]interface{}) {
 		}).Warn("Could not create or edit pipeline: " + pipelineName)
 	}
 	if response.StatusCode != 200 {
-		log.WithFields(log.Fields{"message": response.Body}).Warn("Could not create or edit " + pipelineName + " reason: ")
+		log.WithFields(log.Fields{"message": response.Body}).Fatal("Could not create or edit " + pipelineName + " reason: ")
+
+	} else {
+		log.Info("Updated: " + pipelineName)
 	}
 }
 
