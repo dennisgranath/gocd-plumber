@@ -10,10 +10,18 @@ Create gocd-pipelines from YAML config.
 Download static binary here:
 https://github.com/dennisgranath/gocd-plumber/releases/latest
 
-## Build
-`go build`
+Edit config file (a sample is available in root/etc/gocd-plumber dir).
+## Run
+
+Run gocd-plumber in a directory containing pipeline configuration files:
+
+`./gocd-plumber -config /path/to/config`
 
 ## Dev
+
+### Build
+`go build`
+
 ### GoCD
 `git clone https://github.com/dennisgranath/gocd-docker.git` and run `docker-compose up`.
 
